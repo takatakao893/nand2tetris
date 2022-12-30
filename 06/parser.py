@@ -11,7 +11,7 @@ C_COMMAND_PATTERN = re.compile(r'(?:(A?M?D?)=)?([^;]+)(?:;(.+))?')
 class Parser():
     def __init__(self,filepath):
         self.file = open(filepath)
-        self.current_command(filepath)
+        self.current_command = None
     
     def __enter__(self):
         return self
@@ -29,7 +29,7 @@ class Parser():
             line_trimmed = line.strip().replace(' ','')
             comment = line_trimmed.find('//')
             if comment != -1:
-                line_trimmed = ''
+                line_trimmed = line_trimmed[:comment]
             
             if line_trimmed != '':
                 self.current_command = line_trimmed
